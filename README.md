@@ -3,6 +3,8 @@ Send DMX using sACN over websockets, created for use in virtual lighting rigs.
 
 ## Prerequisite
 Python 3.8+
+A Websocket Server, any server that accepts websockets and will then distribute it to connected clients. 
+I've used [Pie Socket](https://www.piesocket.com/) for testing
 
 ## Install
 Download the [Latest Release](https://github.com/XDelta/sACN_Websockets/releases/latest/).<br>
