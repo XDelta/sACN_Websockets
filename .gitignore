@@ -1,0 +1,5 @@
+#py
+__pycache__
+
+#logs
+*.log

@@ -1,0 +1,5 @@
+requests>=2.25.0
+sacn>=1.4.6
+websockets>=8.1
+toml>=0.10.2
+packaging==20.9

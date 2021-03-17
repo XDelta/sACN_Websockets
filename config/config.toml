@@ -1,0 +1,11 @@
+[settings]
+ws_uri = "ws://localhost" #Websocket host, (default: ws://localhost)
+
+[dmx]
+sACN_port = 5568 # sACN/udp port (default: 5568)
+sACN_ip = "127.0.0.1" # Local device (default: 127.0.0.1)
+sACN_universe = 1 # sACN universe to listen on (default: 1)
+dmx_fps = 10 # Send up to x dmx frames per second (default: 10)
+
+[debug]
+configSpec = 1 # Version of this config
