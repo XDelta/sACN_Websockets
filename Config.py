@@ -5,7 +5,7 @@ import toml
 from Logging import wssl
 import __meta__ as meta
 
-configSpec = 1
+configSpec = 2
 
 class Config(object):
 
@@ -21,8 +21,11 @@ class Config(object):
 	def setConfigFile(self, configFile):
 		tomlData = toml.load(open(join(self.app_dir, 'config', configFile)))
 
-		self.ws_uri = self.setValDefault(tomlData.get('settings').get('ws_uri'), "ws://localhost")
-		self.sACN_port = self.setValDefault(tomlData.get('dmx').get('sACN_port'), "5568")
+		self.ws_uri = self.setValDefault(tomlData.get('destination').get('ws_uri'), "ws://localhost")
+		self.locally_host = self.setValDefault(tomlData.get('destination').get('locally_host'), True)
+		self.local_port = self.setValDefault(tomlData.get('destination').get('local_port'), True)
+
+		self.sACN_port = self.setValDefault(tomlData.get('dmx').get('sACN_port'), 5568)
 		self.sACN_ip = self.setValDefault(tomlData.get('dmx').get('sACN_ip'), "127.0.0.1")
 		self.dmx_fps = self.setValDefault(tomlData.get('dmx').get('dmx_fps'), 10)
 		self.sACN_universe = self.setValDefault(tomlData.get('dmx').get('sACN_universe'), 1)

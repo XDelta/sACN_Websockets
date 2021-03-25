@@ -39,28 +39,30 @@ def lastDMX():
 	pre = ''.join(format(x, '02x') for x in LastPacket)
 	return pre
 
-wssl.log(("Listening on {0}:{1}").format(config.sACN_ip, config.sACN_port))
-wssl.log(("Sending on {0}").format(config.ws_uri))
+async def localServer(websocket, path):
+	await dmxSender(websocket)
 
+async def remoteSender(): #connect to external ws server
+	async with websockets.connect(config.ws_uri) as websocket:
+		await dmxSender(websocket)
 
-async def sender():
+async def dmxSender(websocket):
 	running = True
 	global hasDataToSend
 	dmx_fps = config.dmx_fps
 
-	async with websockets.connect(config.ws_uri) as websocket:
-		while running:
-			if hasDataToSend:
-				try:
-					data = lastDMX()
-					await websocket.send(data)
-					hasDataToSend = False
-					await asyncio.sleep(1/dmx_fps)
-				except Exception as e:
-					wssl.log(str(e))
-					running = False
-			else:
+	while running:
+		if hasDataToSend:
+			try:
+				data = lastDMX()
+				await websocket.send(data)
+				hasDataToSend = False
 				await asyncio.sleep(1/dmx_fps)
+			except Exception as e:
+				wssl.log(str(e))
+				running = False
+		else:
+			await asyncio.sleep(1/dmx_fps)
 
 @receiver.listen_on('universe', universe=config.sACN_universe)
 def callback(packet):
@@ -69,14 +71,23 @@ def callback(packet):
 	LastPacket = packet.dmxData
 	hasDataToSend = True
 
+wssl.log(("Listening on {0}:{1}").format(config.sACN_ip, config.sACN_port))
 receiver.join_multicast(config.sACN_universe)
 
 try:
-	asyncio.get_event_loop().run_until_complete(sender())
+	if config.locally_host:
+		start_server = websockets.serve(localServer, "localhost", config.local_port)
+		asyncio.get_event_loop().run_until_complete(start_server)
+		wssl.log(("Sending locally on ws://localhost:{0}").format(config.local_port))
+		asyncio.get_event_loop().run_forever()
+	else:
+		wssl.log(("Sending on {0}").format(config.ws_uri))
+		asyncio.get_event_loop().run_until_complete(remoteSender())
+
 except KeyboardInterrupt as e:
 	wssl.log("Closed by console interrupt")
 except socket.gaierror as e:
-	wssl.log("Unable to connect to wss host")
+	wssl.log("Unable to connect to websocket host")
 	wssl.log(str(sys.exc_info()))
 except Exception as e:
 	wssl.log(str(sys.exc_info()))
