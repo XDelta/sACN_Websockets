@@ -23,7 +23,7 @@ class Config(object):
 
 		self.ws_uri = self.setValDefault(tomlData.get('destination').get('ws_uri'), "ws://localhost")
 		self.locally_host = self.setValDefault(tomlData.get('destination').get('locally_host'), True)
-		self.local_port = self.setValDefault(tomlData.get('destination').get('local_port'), True)
+		self.local_port = self.setValDefault(tomlData.get('destination').get('local_port'), 80)
 
 		self.sACN_port = self.setValDefault(tomlData.get('dmx').get('sACN_port'), 5568)
 		self.sACN_ip = self.setValDefault(tomlData.get('dmx').get('sACN_ip'), "127.0.0.1")
