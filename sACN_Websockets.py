@@ -55,8 +55,8 @@ async def dmxSender(websocket):
 		if hasDataToSend:
 			try:
 				data = lastDMX()
-				await websocket.send(data)
 				hasDataToSend = False
+				await websocket.send(data)
 				await asyncio.sleep(1/dmx_fps)
 			except Exception as e:
 				wssl.log(str(e))
