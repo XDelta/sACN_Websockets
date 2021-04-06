@@ -19,7 +19,8 @@ class Config(object):
 		return val
 
 	def setConfigFile(self, configFile):
-		tomlData = toml.load(open(join(self.app_dir, 'config', configFile)))
+		with open(join(self.app_dir, 'config', configFile)) as cf:
+			tomlData = toml.load(cf)
 
 		self.ws_uri = self.setValDefault(tomlData.get('destination').get('ws_uri'), "ws://localhost")
 		self.locally_host = self.setValDefault(tomlData.get('destination').get('locally_host'), True)
