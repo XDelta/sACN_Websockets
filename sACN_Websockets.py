@@ -43,8 +43,11 @@ async def localServer(websocket, path):
 	await dmxSender(websocket)
 
 async def remoteSender(): #connect to external ws server
-	async with websockets.connect(config.ws_uri) as websocket:
-		await dmxSender(websocket)
+	while True:
+		wssl.log(("Connecting to {0}").format(config.ws_uri))
+		async with websockets.connect(config.ws_uri) as websocket:
+			await dmxSender(websocket)
+			wssl.log("Lost connection to remote host")
 
 async def dmxSender(websocket):
 	running = True
