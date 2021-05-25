@@ -1,4 +1,4 @@
-import asyncio, sys, socket
+import asyncio, sys, socket, traceback
 
 import websockets
 import sacn, requests
@@ -9,9 +9,9 @@ from Logging import wssl
 
 try:
 	config.setConfigFile('config.toml')
-except Exception as e:
+except Exception:
+	wssl.log(traceback.format_exc())
 	wssl.log("Error opening config")
-	wssl.log(str(e))
 	sys.exit()
 
 # update check
@@ -26,8 +26,8 @@ try:
 		wssl.log("Ahead of Remote [" + str(rver) + "], Current [" + str(cver) +"]")
 	else:
 		wssl.log("Up to date [" + str(rver) + "]")
-except Exception as e:
-	wssl.log(str(sys.exc_info()))
+except Exception:
+	wssl.log(traceback.format_exc())
 	wssl.log("Unable to check for update")
 
 hasDataToSend = True
@@ -58,8 +58,9 @@ async def dmxSender(websocket):
 				hasDataToSend = False
 				await websocket.send(data)
 				await asyncio.sleep(1/dmx_fps)
-			except Exception as e:
-				wssl.log(str(e))
+			except Exception:
+				wssl.log(traceback.format_exc())
+				wssl.log("Failed on send")
 				running = False
 		else:
 			await asyncio.sleep(1/dmx_fps)
@@ -84,13 +85,13 @@ try:
 		wssl.log(("Sending on {0}").format(config.ws_uri))
 		asyncio.get_event_loop().run_until_complete(remoteSender())
 
-except KeyboardInterrupt as e:
+except KeyboardInterrupt:
 	wssl.log("Closed by console interrupt")
-except socket.gaierror as e:
-	wssl.log("Unable to connect to websocket host")
-	wssl.log(str(sys.exc_info()))
-except Exception as e:
-	wssl.log(str(sys.exc_info()))
-	wssl.log(str(e))
+except socket.gaierror:
+	#should no longer be reachable
+	wssl.log(traceback.format_exc())
+	wssl.log("Unable to connect to websocket host, likely invalid name")
+except Exception:
+	wssl.log(traceback.format_exc())
 
 receiver.stop()
