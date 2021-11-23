@@ -2,7 +2,7 @@
 Send DMX using sACN over websockets, created for use in virtual lighting rigs.
 
 ## Prerequisite
-* Python 3.8+
+* Python 3.8.x up to 3.9.5
 * A Websocket Relay Server
 * Any lighting software that supports sACN
 
