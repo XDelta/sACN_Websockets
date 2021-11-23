@@ -41,6 +41,7 @@ def lastDMX():
 
 async def localServer(websocket, path):
 	await dmxSender(websocket)
+	wssl.log("Exited local server")
 
 async def remoteSender(): #connect to external ws server
 	while True:
