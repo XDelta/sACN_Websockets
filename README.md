@@ -1,6 +1,8 @@
 # sACN_Websockets
 Send a universe of DMX using sACN over websockets, created for use in virtual lighting rigs.
 
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
 ## Prerequisite
 * Python 3.8.x up to 3.9.5
 * A Websocket Relay Server
@@ -52,6 +54,3 @@ DMX Sending rate can be anything between 1 and 48, this defines the maximum rate
 ## Usage
 Run `sACN_Websockets.py`<br>
 The default configuration will host a websocket server available at `ws://localhost:80/` and listen for sACN Universe 1 on `127.0.0.1:5568`
-
-
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
