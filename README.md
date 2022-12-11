@@ -43,6 +43,10 @@ Port for sACN, shouldn't need to be changed
 IP address to listen for sACN on, in this case it is the local device. Depending on the lighting software you use, you may need to enable sending sACN to Applications on the same device. In MagicQ, this is in Setup>Network.<br>
 ![settings image in magicq](https://user-images.githubusercontent.com/7883807/142968817-314039d3-89af-43f8-a940-47fe17f4e953.png)
 <br>
+In newer versions of MagicQ, this setting has been changed to Net host options<br>
+![settings image in magicq](https://user-images.githubusercontent.com/7883807/206890919-9e5544cc-a51c-4da3-9cf1-a4738910e353.png)
+
+<br>
 
 `sACN_universe = 1`<br>
 sACN universe to listen to, most small setups won't need to be change this. If you need to send multiple universes, multiple copies of the application can be used but you will need to have separate config files made.
