@@ -4,7 +4,7 @@ Send a universe of DMX using sACN over websockets, created for use in virtual li
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## Prerequisite
-* Python 3.8.x up to 3.9.5
+* Python 3.8.x or newer (tested up to 3.11.2)
 * A Websocket Relay Server
 * Any lighting software that supports sACN
 
